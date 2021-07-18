@@ -1,9 +1,9 @@
-
 #include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
-static long num_steps = 100000; double step;
-#define NUM_THREADS 2
+#include <time.h>
+
+#define NUM_THREADS 4
 #define N 4
 
 int MATRIZ_1[N][N];
@@ -26,9 +26,9 @@ void mult(int id){
 
 
 int main () {
-    int i,j,n,k, nthreads; double pi, sum[NUM_THREADS];
-    step = 1.0/(double) num_steps;
-    
+    int i,j, nthreads;
+
+  
     for(i=0; i<N; i++){
     	for(j=0; j<N; j++){
     	     MATRIZ_1[i][j] = j+1;
@@ -42,18 +42,11 @@ int main () {
         id = omp_get_thread_num();
         nthrds = omp_get_num_threads();
         if (id == 0) nthreads = nthrds;
-        for (i=id, sum[id]=0.0; i<nthrds; i=i+nthrds){
-            printf("%d --- \n", i);
+        
+        for (i=id; i<nthrds; i=i+nthrds){
             mult(i);
         }
-    }
-    for(i=0; i<N; i++){
-    	for(j=0; j<N; j++){
-    	     printf("%d ", MATRIZ_1[i][j]);
-    	}
-    	printf("\n");
-    }
-    
+    }  
     
     for(i=0; i<N; i++){
     	for(j=0; j<N; j++){
