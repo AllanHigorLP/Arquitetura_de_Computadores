@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define NUM_THREADS 4
-#define N 4
+#define NUM_THREADS 1000
+#define N 500
 
 int MATRIZ_1[N][N];
 int MATRIZ_2[N][N];
@@ -36,6 +36,7 @@ int main () {
     	}
     }
        
+       clock_t begin = clock();
     #pragma omp parallel num_threads(NUM_THREADS)
     {
         int i, id, nthrds; double x;
@@ -47,6 +48,9 @@ int main () {
             mult(i);
         }
     }  
+    clock_t end = clock();
+    
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     
     for(i=0; i<N; i++){
     	for(j=0; j<N; j++){
@@ -55,33 +59,7 @@ int main () {
     	printf("\n");
     }
     
+    printf("%f",time_spent);
+    
     return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}[
