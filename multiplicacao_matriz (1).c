@@ -1,5 +1,3 @@
-// Autor: Allan Higor Liborio Pardinho
-
 #include <stdio.h>
 #include <pthread.h>
 #include <time.h>
